@@ -43,11 +43,12 @@ router.post("/getParticularBooks", async function(req, res){
     
 })
 
-// router.get("/getXINRBooks", async function(req, res){
-//     let INRBooks= await bookmodel.find({prices: {indianPrice: {$in : [100, 200, 500] } }})
-//     res.send({msg: INRBooks})
+router.get("/getXINRBooks", async function(req, res){
+    let INRBooks= await bookmodel.find({'prices.indianPrice': {$in : [100, 200, 500] }})
+    res.send({msg: INRBooks})
     
-// })
+})
+
 
 router.get("/getRandomBooks", async function(req, res){
     let RandomBooks= await bookmodel.find({ $or: [{stockAvailable: true}, {pages: {$gt : 500}}]   })
