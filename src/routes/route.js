@@ -1,41 +1,78 @@
 const express = require('express');
 const router = express.Router();
 // const UserModel= require("../models/userModel.js")
-const UserController= require("../controllers/userController")
-const BookController= require("../controllers/bookController")
+// const bookmodel= require("../bookmodel/bookmodel.js")
+// const UserController= require("../controllers/userController")
 
-router.get("/test-me", function (req, res) {
-    res.send("My first ever api!")
-})
+const allController = require('../controllers/allController')
 
-router.post("/createUser", UserController.createUser  )
 
-router.get("/getUsersData", UserController.getUsersData)
+// router.get("/test-me", function (req, res) {
+//     res.send("My first ever api!")
+// })
 
-router.post("/createBook", BookController.createBook  )
+// router.post("/createUser", UserController.createUser  )
 
-router.get("/getBooksData", BookController.getBooksData)
+// router.get("/getUsersData", UserController.getUsersData)
 
-router.post("/updateBooks", BookController.updateBooks)
-router.post("/deleteBooks", BookController.deleteBooks)
 
-//MOMENT JS
-const moment = require('moment');
-router.get("/dateManipulations", function (req, res) {
+
+// router.post("/book", async function(req,res){
+
+//     let book =  req.body
+//     let saveBook = await bookmodel.create(book)
+//     res.send({msg:saveBook})
+
+
+//     })
+
+// router.get("/bookList", async function(req,res){
+
+//     let allBooks= await bookmodel.find().select({bookName:1, authorName:1, _id:0 })
+//     res.send({msg: allBooks})
+// })
+
+// router.get("/getBooksInYear", async function(req, res){
+//     let inYear= req.query.year
+//     let allBooksinYear= await bookmodel.find({year: inYear}).select({_id:0, _v: 0,createdAt:0, updatedAt:0})
+//     res.send({msg: allBooksinYear})
     
-    // const today = moment();
-    // let x= today.add(10, "days")
+// })
 
-    // let validOrNot= moment("29-02-1991", "DD-MM-YYYY").isValid()
-    // console.log(validOrNot)
+// router.post("/getParticularBooks", async function(req, res){
+//     let key= req.body
+//     let ParticularBooks= await bookmodel.find(key).select({_id:0, _v: 0,createdAt:0, updatedAt:0})
+//     res.send({msg: ParticularBooks})
     
-    const dateA = moment('01-01-1900', 'DD-MM-YYYY');
-    const dateB = moment('01-01-2000', 'DD-MM-YYYY');
+// })
 
-    let x= dateB.diff(dateA, "days")
-    console.log(x)
+// router.get("/getXINRBooks", async function(req, res){
+//     let INRBooks= await bookmodel.find({'prices.indianPrice': {$in : [100, 200, 500] }})
+//     res.send({msg: INRBooks})
+    
+// })
+// //  price]
 
-    res.send({ msg: "all good"})
-})
+// router.get("/getRandomBooks", async function(req, res){
+//     let RandomBooks= await bookmodel.find({ $or: [{stockAvailable: true}, {pages: {$gt : 500}}]   })
+//     res.send({msg: RandomBooks})                        
+    
+// })
+
+
+
+
+router.post('/createNewAuthor',allController.createNewAuthor)
+router.post('/createNewBook',allController.createNewBook)
+router.get('/allBooks',allController.allBooks)
+router.get('/updatedBookPrice',allController.updatedBookPrice)
+router.get('/authorsName',allController.authorsName)
+router.get('/getBooks',allController.getBooks)
+
+
+
+
+
+
 
 module.exports = router;
