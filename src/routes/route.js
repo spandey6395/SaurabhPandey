@@ -1,27 +1,26 @@
 const express = require('express');
 const router = express.Router();
 
+const authorController = require("../controller/authorController");
+const blogController = require("../controller/blogController");
+const middleware = require('../middleware/middleware.js');
 
 
-router.get("/test-me", function (req, res) {
-    res.send("My first ever api!")
-})
+//Author 
+router.post("/authors",authorController.createAuthor)
 
-const AuthorController = require("../controllers/AuthorController")
-router.post("/CreateAuthor", AuthorController.CreateAuthor)
-router.post("/AuthorLogin", AuthorController.Authorlogin)
+router.post('/login', authorController.login) //login Phase 2
 
+//Blog
 
-const BlogController = require("../controllers/BlogController")
-const MiddleWare = require("../MiddleWare/authorAuth")
-router.post("/CreateBlog", MiddleWare.authenticate, BlogController.CreateBlog)
-router.get("/getBlog", MiddleWare.authenticate, BlogController.getBlog)
-router.put("/Updateblogs/:blogId", MiddleWare.authenticate, MiddleWare.authorise, BlogController.UpdateBlog)
-router.delete("/blogs/:blogId", MiddleWare.authenticate, MiddleWare.authorise, BlogController.DeleteBlogbypathparam)
-router.delete("/DeleteBlogs", MiddleWare.authenticate, MiddleWare.verifyAuthorId,BlogController.DeleteBlogbyqueryparam)
+router.post("/blogs",middleware.authentication,blogController.createBlogs)
 
+router.get("/getBlogs",middleware.authentication,blogController.getBlogs)
 
+router.put("/blogs/:blogId",middleware.authentication,middleware.authorization, blogController.updateBlog)
 
+router.delete("/blogs/:blogId",middleware.authentication,middleware.authorization,blogController.deleteBlog)
 
+router.delete("/blogs",middleware.authentication,middleware.authorization,blogController.deleteParams)
 
 module.exports = router;
